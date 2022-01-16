@@ -31,16 +31,16 @@ export default function NavBar() {
             <Menu.Item key="5">Alex</Menu.Item>
           </Menu.SubMenu>
           <Menu.SubMenu key="sub2" icon={<TeamOutlined />} title="Empresas">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
+            <Menu.Item key="menuItem1">Team 1</Menu.Item>
+            <Menu.Item key="menuItem2">Team 2</Menu.Item>
           </Menu.SubMenu>
           <Menu.SubMenu key="sub3" icon={<TeamOutlined />} title="Unidades">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
+            <Menu.Item key="menuItem3">Team 1</Menu.Item>
+            <Menu.Item key="menuItem4">Team 2</Menu.Item>
           </Menu.SubMenu>
           <Menu.SubMenu key="sub4" icon={<TeamOutlined />} title="Usuarios">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
+            <Menu.Item key="menuItem5">Team 1</Menu.Item>
+            <Menu.Item key="menuItem6">Team 2</Menu.Item>
           </Menu.SubMenu>
           <Menu.Item key="9" icon={<FileOutlined />}>
             Files
