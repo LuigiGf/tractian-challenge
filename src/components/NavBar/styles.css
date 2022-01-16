@@ -1,0 +1,16 @@
+.logo {
+  width: 10rem;
+  margin: 1rem;
+}
+
+.logo_minified{
+  width: 3rem;
+  margin: 1rem;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+  [data-theme="dark"] .site-layout .site-layout-background {
+    background: #1e3a8a;
+  }

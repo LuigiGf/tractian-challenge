@@ -6,8 +6,18 @@
 }
 
 :root{
-    --background: #f8f5ff;
+  --background: #f8f5ff;
+  --white: #F1F1F1;
+  --gray-200: #9ca3af;
+  --black: #0f172a;
+  --blue-200: #3b82f6;
+  --blue-300:#2563eb;
+  --blue-400:#1d4ed8;
+  --blue-500:#1e40af;
+  --blue-700:#1e3a8a;
+  --green: #22C55E;
 }
+
 @media (max-width: 1080px){
   html {
     font-size: 93.75%;

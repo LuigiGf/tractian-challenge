@@ -9,9 +9,14 @@ import Inicio from './pages/Inicio'
 import Unidades from './pages/Unidades';
 import Usuarios from './pages/Usuarios';
 
+import NavBar from './components/NavBar';
+
+import { Layout } from 'antd';
+
 function App() {
   return (
-    <div>
+    <Layout style={{ minHeight: '100vh' }}>
+      <NavBar />
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/ativos" element={<Ativos />} />
@@ -20,7 +25,7 @@ function App() {
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </div>
+    </Layout>
   );
 }
 
