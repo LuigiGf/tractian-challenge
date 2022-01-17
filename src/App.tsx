@@ -39,11 +39,18 @@ type DataFilterProps = {
   id: number;
 }
 
+type counterProps = {
+  companiesCounter: number;
+  usersCounter: number;
+  unitsCounter: number;
+}
+
 function App() {
   const [Units, setUnits] = useState<UnitsProps>([{ "companyId": 1, "id": 1, "name": "testando" }]);
   const [Companies, setCompanies] = useState<CompaniesProps>([{ "id": 1, "name": "teste" }]);
   const [Users, setUsers] = useState<UsersProps>([{ "companyId": 1, "email": "emailteste@gmail.com", "id": 1, "name": "Usuario teste", "unitId": 1 }]);
   const [DataFilter, setDataFilter] = useState<DataFilterProps>({ "type": "undefined", "id": 0, "name": "undefined" });
+  const [Counter, setCounter] = useState<counterProps>({ companiesCounter: 0, usersCounter: 0, unitsCounter: 0 });
 
   useEffect(() => {
     const reqUnits = api.get("units");
@@ -53,6 +60,11 @@ function App() {
       setUnits(responses[0].data);
       setCompanies(responses[1].data);
       setUsers(responses[2].data);
+      setCounter({
+        unitsCounter: responses[0].data.length,
+        companiesCounter: responses[1].data.length,
+        usersCounter: responses[2].data.length
+      })
     }));
   }, [])
 
@@ -64,7 +76,7 @@ function App() {
     <Layout style={{ minHeight: '100vh' }}>
       <NavBar Units={Units} Companies={Companies} Users={Users} handleClick={handleClick} />
       <Routes>
-        <Route path="/" element={<Inicio filteredData={DataFilter} />} />
+        <Route path="/" element={<Inicio counter={Counter} filteredData={DataFilter} />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Layout>
