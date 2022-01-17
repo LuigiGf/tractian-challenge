@@ -28,10 +28,10 @@ export default function CardData(props: CardDataProps) {
       <Card.Meta
         title={props.title}
         description={props.status === "inAlert" ?
-          <Typography.Text type="warning">{props.status}</Typography.Text>
+          <Typography.Text type="warning">Em Alerta</Typography.Text>
           : props.status === "inOperation"
-            ? <Typography.Text type="success">{props.status}</Typography.Text>
-            : <Typography.Text type="danger">{props.status}</Typography.Text>}
+            ? <Typography.Text type="success">Em Operação</Typography.Text>
+            : <Typography.Text type="danger">Em Parada</Typography.Text>}
       />
     </Card>
   );

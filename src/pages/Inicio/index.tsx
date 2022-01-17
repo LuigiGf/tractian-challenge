@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import 'antd/dist/antd.min.css';
-import { Layout, Breadcrumb, Col, Row } from 'antd';
+import { Layout, Breadcrumb, Col, Row, Alert } from 'antd';
 import './style.css'
 
 import { api } from '../../services/api';
@@ -27,7 +27,16 @@ type dataProps = [{
   companyId: number;
 }]
 
-export default function Inicio() {
+type inicioProps = {
+  filteredData: {
+    type: string;
+    name: string;
+    email?: string;
+    id: number;
+  }
+}
+
+export default function Inicio(props: inicioProps) {
   const [data, setData] = useState<dataProps>([{
     "id": 1,
     "sensors": [
@@ -52,27 +61,54 @@ export default function Inicio() {
 
   const generateCardGroup = () => {
     return (
-      <Row className="site-card-wrapper" gutter={80}>
+      <Row justify="space-between">
         {data.map((card, index) => {
-          return (<Col span={6} key={index}>
-            <CardData
-              altImg={card.name}
-              srcImg={card.image}
-              title={card.name}
-              status={card.status}
-              url={"ativos/" + card.id}
-            />
-          </Col>)
+          return (
+            <Col key={index}>
+              <CardData
+                altImg={card.name}
+                srcImg={card.image}
+                title={card.name}
+                status={card.status}
+                url={"ativos/" + card.id}
+              />
+            </Col>)
         })}
       </Row>
     );
   }
 
+  const filteredPlot = () => {
+    return (props.filteredData.type === "undefined" ? <></>
+      : <Alert
+        message={props.filteredData.type === "Companies" ? "Busca realizada por empresa: "
+          + props.filteredData.name : props.filteredData.type === "Units"
+          ? "Busca realizada por unidades: " + props.filteredData.name
+          : "Busca realizada por usuários: " + props.filteredData.name + " Email: " + props.filteredData.email
+        }
+        type="info" />);
+  }
+
   useEffect(() => {
     api.get("assets").then((response) => {
-      setData(response.data);
+      const arr = response.data.filter((value: any) => {
+        if (props.filteredData.type === "Companies") {
+          return value.companyId === props.filteredData.id;
+        } else if (props.filteredData.type === "Units") {
+          return value.unitId === props.filteredData.id;
+        } else {
+          return value;
+        }
+      })
+      setData(arr);
     });
-  }, []);
+    // api.post("assets", temp).then((response) => {
+    //   const arr = data;
+    //   arr.push(response.data);
+    //   setData(arr);
+    // });
+  }, [props.filteredData]);
+
   return (
     <>
       <Layout className="site-layout">
@@ -82,10 +118,11 @@ export default function Inicio() {
             <Breadcrumb.Item>Inicio</Breadcrumb.Item>
           </Breadcrumb>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+            {filteredPlot()}
             {generateCardGroup()}
           </div>
         </Layout.Content>
-        <Layout.Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Layout.Footer>
+        <Layout.Footer style={{ textAlign: 'center' }}>Sistema desenvolvido e fornecido por TRACTIAN</Layout.Footer>
       </Layout>
 
     </>)
