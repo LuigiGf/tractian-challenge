@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import 'antd/dist/antd.min.css';
 import { Layout, Breadcrumb, Col, Row, Alert, Descriptions } from 'antd';
-import './style.css'
 
-import { api } from '../../services/api';
 import CardData from '../../components/CardData';
 import PieChart from '../../components/PieChart';
 
-type dataProps = [{
+import { DataContext } from '../../dataContext';
+
+type dataProps = {
   id: number;
   sensors: string[];
   model: string;
@@ -26,7 +26,7 @@ type dataProps = [{
   };
   unitId: number;
   companyId: number;
-}]
+}
 
 type inicioProps = {
   filteredData: {
@@ -42,14 +42,15 @@ type inicioProps = {
   }
 }
 
-type pieChartData = Array<{
+type pieChartData = {
   name: string;
   y: number;
   color: string;
-}>
+}
 
 export default function Inicio(props: inicioProps) {
-  const [data, setData] = useState<dataProps>([{
+  const mainData = useContext(DataContext);
+  const [dataAux, setDataAux] = useState<dataProps[]>([{
     "id": 1,
     "sensors": [
       "GSJ1535"
@@ -70,28 +71,7 @@ export default function Inicio(props: inicioProps) {
     "unitId": 1,
     "companyId": 1
   }]);
-  const [dataAux, setDataAux] = useState<dataProps>([{
-    "id": 1,
-    "sensors": [
-      "GSJ1535"
-    ],
-    "model": "motor",
-    "status": "inAlert",
-    "healthscore": 70,
-    "name": "Motor H13D-1",
-    "image": "https://tractian-img.s3.amazonaws.com/6d5028682016cb43d02b857d4f1384ae.jpeg",
-    "specifications": {
-      "maxTemp": 80
-    },
-    "metrics": {
-      "totalCollectsUptime": 7516,
-      "totalUptime": 1419.620084999977,
-      "lastUptimeAt": "2021-02-16T16:17:50.180Z"
-    },
-    "unitId": 1,
-    "companyId": 1
-  }]);
-  const [pieChartData, setPieChartData] = useState<pieChartData>([
+  const [pieChartData, setPieChartData] = useState<pieChartData[]>([
     { name: "undefined", y: 0, color: "#0000" },
     { name: "undefined", y: 0, color: "#0000" },
     { name: "undefined", y: 0, color: "#0000" }
@@ -127,7 +107,7 @@ export default function Inicio(props: inicioProps) {
         type="info" />);
   }
 
-  const chartUpdate = (props: dataProps) => {
+  const chartUpdate = (props: dataProps[]) => {
     const counterInAlert = props.filter(x => x.status === "inAlert").length;
     const counterInOperation = props.filter(x => x.status === "inOperation").length;
     const counterInDowntime = props.filter(x => x.status === "inDowntime").length;
@@ -138,7 +118,7 @@ export default function Inicio(props: inicioProps) {
   }
 
   useEffect(() => {
-    const arr: any = data.filter((value: any) => {
+    const arr: dataProps[] = mainData.filter((value) => {
       if (props.filteredData.type === "Companies") {
         return value.companyId === props.filteredData.id;
       } else if (props.filteredData.type === "Units") {
@@ -149,11 +129,11 @@ export default function Inicio(props: inicioProps) {
     })
     setDataAux(arr);
     chartUpdate(arr)
-  }, [props.filteredData]);
+  }, [props.filteredData, mainData]);
 
   useEffect(() => {
-    api.get("assets").then((response) => { setData(response.data); setDataAux(response.data); chartUpdate(response.data) })
-  }, []);
+    setDataAux(mainData); chartUpdate(mainData)
+  }, [mainData]);
 
   return (
     <>
@@ -186,6 +166,5 @@ export default function Inicio(props: inicioProps) {
         </Layout.Content>
         <Layout.Footer style={{ textAlign: 'center' }}>Sistema desenvolvido e fornecido por TRACTIAN</Layout.Footer>
       </Layout>
-
     </>)
 }

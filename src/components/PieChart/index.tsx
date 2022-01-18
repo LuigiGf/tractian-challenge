@@ -4,13 +4,12 @@ import HighchartsReact from "highcharts-react-official";
 type pieChartProps = {
   title: string;
   dataName: string;
-  data: Array<{
+  data: {
     name: string;
     y: number;
     color: string;
-  }>
+  }[]
 }
-
 
 export default function PieChart(props: pieChartProps) {
 
@@ -52,6 +51,7 @@ export default function PieChart(props: pieChartProps) {
     <HighchartsReact
       highcharts={Highcharts}
       options={chartOptions}
+      className="graph"
     />
   );
 }

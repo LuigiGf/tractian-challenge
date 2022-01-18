@@ -10,42 +10,49 @@ import {
   TeamOutlined,
   UserSwitchOutlined,
   BankOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
 
 //styles import
 import './styles.css'
 
-type CompaniesProps = [{
+type CompaniesProps = {
   id: number;
   name: string;
-}]
+}
 
-type UnitsProps = [{
+type UnitsProps = {
   companyId: number;
   id: number;
   name: string;
-}]
+}
 
-type UsersProps = [{
+type UsersProps = {
   companyId: number;
   email: string;
   id: number;
   name: string;
   unitId: number;
-}]
+}
+
+type mainConfigProps = {
+  type: string;
+  id: number;
+  name: string;
+}
 
 type NavBarProps = {
-  Units: UnitsProps;
-  Companies: CompaniesProps;
-  Users: UsersProps;
-  handleClick: any;
+  Units: UnitsProps[];
+  Companies: CompaniesProps[];
+  Users: UsersProps[];
+  handleClick: (props: mainConfigProps) => void;
 };
 
 export default function NavBar(props: NavBarProps) {
   const [Collapsed, setCollapsed] = useState(false);
 
-  const generateLists = (data: any, type: string) => {
-    return (data.map((element: any, key: number) => {
+  const generateLists = (data: CompaniesProps[] | UnitsProps[] | UsersProps[], type: string) => {
+    return (data.map((element: UsersProps | UnitsProps | CompaniesProps | any, key: number) => {
       const filterData = {
         type: type,
         name: element.name,
@@ -64,9 +71,9 @@ export default function NavBar(props: NavBarProps) {
   return (
     <>
       <Layout.Sider collapsible collapsed={Collapsed} onCollapse={setCollapsed}>
-        <img src="./images/Logo-Tractian.svg" className={Collapsed === false ? "logo" : "logo_minified"} />
+        <img alt="Tractian" src="./images/Logo-Tractian.svg" className={Collapsed === false ? "logo" : "logo_minified"} />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
+          <Menu.Item key="homeKey" icon={<PieChartOutlined />}>
             <Link onClick={() => { props.handleClick(mainConfig) }} key="home" to="/">Inicio</Link>
           </Menu.Item>
           <Menu.SubMenu key="sub1" icon={<TeamOutlined />} title="Empresas">
@@ -78,6 +85,9 @@ export default function NavBar(props: NavBarProps) {
           <Menu.SubMenu key="sub3" icon={<UserSwitchOutlined />} title="Usuarios">
             {generateLists(props.Users, "Users")}
           </Menu.SubMenu>
+          <Menu.Item key="configKey" icon={<SettingOutlined />}>
+            <Link key="config" to="/settings">Configurações</Link>
+          </Menu.Item>
         </Menu>
       </Layout.Sider>
     </>
