@@ -1,4 +1,4 @@
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import { Card, Typography } from 'antd';
 import { AiOutlineSetting } from 'react-icons/ai'
 import './style.css'

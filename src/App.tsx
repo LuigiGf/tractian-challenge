@@ -116,14 +116,17 @@ function App() {
       const arr: JSX.Element[] = [];
       responses[3].data.map((item: dataProps) => {
         return arr.push(<Route key={"ativos/" + item.id} path={"ativos/" + item.id}
-          element={<DynamicActive id={item.id} />} />);
+          element={<DynamicActive
+            id={item.id}
+          />}
+        />);
       })
       setUnitRoutes(arr);
       setLoading(false);
     }));
   }, [])
 
-  function handleClick(filter: DataFilterProps) {
+  function handleClickFilter(filter: DataFilterProps) {
     setDataFilter(filter);
   }
 
@@ -134,7 +137,7 @@ function App() {
           Units={Units}
           Companies={Companies}
           Users={Users}
-          handleClick={handleClick}
+          handleClick={handleClickFilter}
         />
         <Routes>
           <Route path="/" element={<Inicio counter={Counter} filteredData={DataFilter} />} />
