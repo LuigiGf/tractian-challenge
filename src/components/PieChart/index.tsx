@@ -51,7 +51,7 @@ export default function PieChart(props: pieChartProps) {
     <HighchartsReact
       highcharts={Highcharts}
       options={chartOptions}
-      className="graph"
+      className="pieChartGraph"
     />
   );
 }

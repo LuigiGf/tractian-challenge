@@ -6,7 +6,6 @@ import './App.css'
 
 import ErrorPage from './pages/ErrorPage';
 import Inicio from './pages/Inicio'
-import Config from './pages/Config';
 
 import NavBar from './components/NavBar';
 import DynamicActive from './components/DynamicActive';
@@ -66,6 +65,7 @@ type dataProps = {
   };
   unitId: number;
   companyId: number;
+  userId?: number;
 }
 
 function App() {
@@ -117,6 +117,10 @@ function App() {
       responses[3].data.map((item: dataProps) => {
         return arr.push(<Route key={"ativos/" + item.id} path={"ativos/" + item.id}
           element={<DynamicActive
+            postReq={updateData}
+            unitList={responses[0].data}
+            companyList={responses[1].data}
+            userList={responses[2].data}
             id={item.id}
           />}
         />);
@@ -125,6 +129,10 @@ function App() {
       setLoading(false);
     }));
   }, [])
+
+  const updateData = (dataPatch: dataProps[]) => {
+    setData(dataPatch);
+  }
 
   function handleClickFilter(filter: DataFilterProps) {
     setDataFilter(filter);
@@ -141,7 +149,6 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<Inicio counter={Counter} filteredData={DataFilter} />} />
-          <Route path="/settings" element={<Config />} />
           <Route path="*" element={<ErrorPage />} />
           {UnitRoutes}
         </Routes>

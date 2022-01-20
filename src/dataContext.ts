@@ -18,6 +18,7 @@ type dataProps = {
   };
   unitId: number;
   companyId: number;
+  userId?: number;
 }
 
 export const DataContext = createContext<dataProps[]>([{

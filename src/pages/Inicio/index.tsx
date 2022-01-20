@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 
 import 'antd/dist/antd.min.css';
-import { Layout, Breadcrumb, Col, Row, Alert, Descriptions } from 'antd';
+import { Layout, Breadcrumb, Col, Row, Alert, Descriptions, Divider } from 'antd';
 
 import CardData from '../../components/CardData';
 import PieChart from '../../components/PieChart';
@@ -26,6 +26,7 @@ type dataProps = {
   };
   unitId: number;
   companyId: number;
+  userId?: number;
 }
 
 type inicioProps = {
@@ -123,6 +124,8 @@ export default function Inicio(props: inicioProps) {
         return value.companyId === props.filteredData.id;
       } else if (props.filteredData.type === "Units") {
         return value.unitId === props.filteredData.id;
+      } else if (props.filteredData.type === "Users") {
+        return value.userId === props.filteredData.id;
       } else {
         return value;
       }
@@ -145,8 +148,9 @@ export default function Inicio(props: inicioProps) {
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             {filteredPlot()}
             <Row>
-              <Col span={12}><PieChart title="Situação dos Ativos" dataName="Ativo" data={pieChartData} /></Col>
-              <Col span={12}>
+              <Col span={13}><PieChart title="Situação dos Ativos" dataName="Ativo" data={pieChartData} /></Col>
+              <Col span={1}><Divider type="vertical" /></Col>
+              <Col span={10}>
                 <Descriptions
                   title="Descrição do sistema cadastrado até o momento"
                   bordered
